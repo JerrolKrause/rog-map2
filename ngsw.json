@@ -1,0 +1,169 @@
+{
+  "configVersion": 1,
+  "index": "/rog-map2/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "/rog-map2/1.733fa98de6d09aa7c149.js",
+        "/rog-map2/10.27c5dd6e47edc3dfb0fc.js",
+        "/rog-map2/11.fa8c991ef98d6cda8a83.js",
+        "/rog-map2/12.60043851dbec4b42871e.js",
+        "/rog-map2/13.4bb0aef7659bbd13e4e3.js",
+        "/rog-map2/14.e01d7f4d78f639bf23e4.js",
+        "/rog-map2/15.55bdc51f9aee7d2d4114.js",
+        "/rog-map2/16.91eea66ca92f99a034a0.js",
+        "/rog-map2/17.f3ec699c4c54b31f9487.js",
+        "/rog-map2/18.03c922da4657caadc4a5.js",
+        "/rog-map2/19.e5007e35e1c982687cf9.js",
+        "/rog-map2/3.d3de3e9d99ceb26cc6f6.js",
+        "/rog-map2/4.0f29e1f68491d8a3c38b.js",
+        "/rog-map2/5.38dca25425fe9fd35176.js",
+        "/rog-map2/6.6fed87c00a60e91d30f1.js",
+        "/rog-map2/apple-touch-icon.png",
+        "/rog-map2/common.b1d41620d414a688f305.js",
+        "/rog-map2/favicon.ico",
+        "/rog-map2/index.html",
+        "/rog-map2/main.b560f8f2653c5cfa2af9.js",
+        "/rog-map2/polyfills.c6c9808f71777a497831.js",
+        "/rog-map2/runtime.e5a2d40e377c4774ca06.js",
+        "/rog-map2/safari-pinned-tab.svg",
+        "/rog-map2/scripts.1bb65570ef961697a258.js",
+        "/rog-map2/styles.cafbb52f03270cdecdc2.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "fonts",
+      "installMode": "lazy",
+      "updateMode": "lazy",
+      "urls": [
+        "/rog-map2/fontawesome-webfont.674f50d287a8c48dc19b.eot",
+        "/rog-map2/fontawesome-webfont.912ec66d7572ff821749.svg",
+        "/rog-map2/fontawesome-webfont.af7ae505a9eed503f8b8.woff2",
+        "/rog-map2/fontawesome-webfont.b06871f281fee6b241d6.ttf",
+        "/rog-map2/fontawesome-webfont.fee66e712a8a08eef580.woff"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "urls": [
+        "/rog-map2/assets/icons/apple-icon-180x180.png",
+        "/rog-map2/assets/icons/favicon-16x16.png",
+        "/rog-map2/assets/icons/favicon-192x192.png",
+        "/rog-map2/assets/icons/favicon-32x32.png",
+        "/rog-map2/assets/icons/favicon-96x96.png",
+        "/rog-map2/assets/img/brand-square.png",
+        "/rog-map2/assets/img/btn-brand.png",
+        "/rog-map2/assets/img/btn-heatmap.png",
+        "/rog-map2/assets/img/btn-maptype.png",
+        "/rog-map2/assets/img/logo-brand.png",
+        "/rog-map2/assets/img/map-icon-rog.png",
+        "/rog-map2/assets/img/map-icon.png",
+        "/rog-map2/assets/mock-data/env-settings.json",
+        "/rog-map2/assets/mock-data/login.json",
+        "/rog-map2/assets/mock-data/map-data.json",
+        "/rog-map2/assets/mock-data/properties.json",
+        "/rog-map2/assets/mock-data/user.json",
+        "/rog-map2/assets/mock-data/users.json",
+        "/rog-map2/assets/mock-data/version.json",
+        "/rog-map2/assets/scripts/canvasjs.min.js",
+        "/rog-map2/assets/scripts/chart.min.js",
+        "/rog-map2/assets/scripts/ie-polyfills.min.js",
+        "/rog-map2/assets/scripts/polyfills-ie.min.js"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "api",
+      "patterns": [
+        "https:\\/\\/jsonplaceholder\\.typicode\\.com\\/.*",
+        "\\/users"
+      ],
+      "strategy": "freshness",
+      "maxSize": 100000,
+      "maxAge": 259200000,
+      "version": 1
+    }
+  ],
+  "hashTable": {
+    "/rog-map2/1.733fa98de6d09aa7c149.js": "8e8ece2d044194b390642c27011642a95c0c3a39",
+    "/rog-map2/10.27c5dd6e47edc3dfb0fc.js": "272286946106b567e8a8070d20e20d6022442b34",
+    "/rog-map2/11.fa8c991ef98d6cda8a83.js": "c70413c3ba5fc3f553b39577f9f2282ed76a687b",
+    "/rog-map2/12.60043851dbec4b42871e.js": "192f374db1102c290d1fbb6c29989063c8cc3ceb",
+    "/rog-map2/13.4bb0aef7659bbd13e4e3.js": "a891d5c4ccfb1694cdb145f10c6e5889d53bfb5b",
+    "/rog-map2/14.e01d7f4d78f639bf23e4.js": "409d5e55fcf4e722977d0f1604459d6f4beabe4f",
+    "/rog-map2/15.55bdc51f9aee7d2d4114.js": "34228894cb0404d1d48ed0467ce7809cfe91d4d5",
+    "/rog-map2/16.91eea66ca92f99a034a0.js": "da69bc64ba16333754bb55192571bfbfc4b6c2ec",
+    "/rog-map2/17.f3ec699c4c54b31f9487.js": "c0605defa78661b32eb0cfcfe2cc9c6d7b26eb24",
+    "/rog-map2/18.03c922da4657caadc4a5.js": "027c0cd255f9eadcf8d68f9e33bd3439ca7b39cb",
+    "/rog-map2/19.e5007e35e1c982687cf9.js": "3761216017afce43349c88d2f85833c90ca59148",
+    "/rog-map2/3.d3de3e9d99ceb26cc6f6.js": "5f5773800d957c15eb42f50c246f11310feeb66e",
+    "/rog-map2/4.0f29e1f68491d8a3c38b.js": "411fa5d42a1363f9a755d31abbb836c304778fe9",
+    "/rog-map2/5.38dca25425fe9fd35176.js": "1de3a412c7a0ad039c77da427d2110d9587ccd53",
+    "/rog-map2/6.6fed87c00a60e91d30f1.js": "45dff12f28e115a54097904770b02ac4b5bd114d",
+    "/rog-map2/apple-touch-icon.png": "15abe2d99cd932cf81f00244cb9db469458911f8",
+    "/rog-map2/assets/icons/apple-icon-180x180.png": "249c600eec83bdccd5aac0c4d12a992a27899dff",
+    "/rog-map2/assets/icons/favicon-16x16.png": "b5c681f4c7594690eee9fec4c56ad0224bccd321",
+    "/rog-map2/assets/icons/favicon-192x192.png": "fd3f118cf196686de1af3729e3b3da52c4546009",
+    "/rog-map2/assets/icons/favicon-32x32.png": "40ec60bed19a90fa6d8d37d47c2bdb2cd805a6d9",
+    "/rog-map2/assets/icons/favicon-96x96.png": "a48b83095b71ef13d84c142f7807c85a681cc55e",
+    "/rog-map2/assets/img/brand-square.png": "db7c3460ecbd8f7f0f41fbf4174dbe873508a96f",
+    "/rog-map2/assets/img/btn-brand.png": "58b2973ac43c9e37a74817f4169e232539cdcf54",
+    "/rog-map2/assets/img/btn-heatmap.png": "87f85719330344f70b3bc79fbe92aa59ead884c7",
+    "/rog-map2/assets/img/btn-maptype.png": "f765feeb2e7c74e80734b0449ce1d4e13d96a62e",
+    "/rog-map2/assets/img/logo-brand.png": "a84ecfcbba0bf484d829839d7e3447c44bda0abd",
+    "/rog-map2/assets/img/map-icon-rog.png": "3ec0e14419ac4c0624df464b17ce6008d492c66e",
+    "/rog-map2/assets/img/map-icon.png": "95a44b9ca71fe03fdf65ddd8eea12f1910f38de2",
+    "/rog-map2/assets/mock-data/env-settings.json": "fce25d3a8f4679053fa76bdb08380e76fe77ef8b",
+    "/rog-map2/assets/mock-data/login.json": "0bf2f1bc2f24df46961d441e5bc4b0f2dbd5214d",
+    "/rog-map2/assets/mock-data/map-data.json": "1b37c62621b8ce5ca7e05949230e4d0a38f03bdf",
+    "/rog-map2/assets/mock-data/properties.json": "8da999c2f2f4d50ab55d6d9bf6fc478091d0efd3",
+    "/rog-map2/assets/mock-data/user.json": "7ede2282decea703345f5321155bfbec432a157f",
+    "/rog-map2/assets/mock-data/users.json": "14bb89b1ab175afe30a7f31106c880898cb6175e",
+    "/rog-map2/assets/mock-data/version.json": "eb204e7423eaf080814e75d3839c7a5863a8082b",
+    "/rog-map2/assets/scripts/canvasjs.min.js": "c2a3b59adf49db3f1775323215e7c3e238c9e8e0",
+    "/rog-map2/assets/scripts/chart.min.js": "b5f0b1cf942f70eca8d2bd0c127231db9f2807f4",
+    "/rog-map2/assets/scripts/ie-polyfills.min.js": "4217642a25b82beb4dcecc1ca0dd98e6076a366e",
+    "/rog-map2/assets/scripts/polyfills-ie.min.js": "cd302b77b4884c96d882acd95ba4381087362334",
+    "/rog-map2/common.b1d41620d414a688f305.js": "9caea7f351994f24121c46c5deb3bf2e4c095048",
+    "/rog-map2/favicon.ico": "a102074f13695e32da2f69e9725ee486b86ce39f",
+    "/rog-map2/fontawesome-webfont.674f50d287a8c48dc19b.eot": "d980c2ce873dc43af460d4d572d441304499f400",
+    "/rog-map2/fontawesome-webfont.912ec66d7572ff821749.svg": "98a8aa5cf7d62c2eff5f07ede8d844b874ef06ed",
+    "/rog-map2/fontawesome-webfont.af7ae505a9eed503f8b8.woff2": "d6f48cba7d076fb6f2fd6ba993a75b9dc1ecbf0c",
+    "/rog-map2/fontawesome-webfont.b06871f281fee6b241d6.ttf": "13b1eab65a983c7a73bc7997c479d66943f7c6cb",
+    "/rog-map2/fontawesome-webfont.fee66e712a8a08eef580.woff": "28b782240b3e76db824e12c02754a9731a167527",
+    "/rog-map2/index.html": "cb6b6955abc8e851e336a6349b98065cdab61ef7",
+    "/rog-map2/main.b560f8f2653c5cfa2af9.js": "801116edb89898a35da0b3197e21a4b3cd7accc3",
+    "/rog-map2/polyfills.c6c9808f71777a497831.js": "96d1dd5c8d90e3866bf713907b0a79d463020a51",
+    "/rog-map2/runtime.e5a2d40e377c4774ca06.js": "08c32ce85ac5144b0904d26a21c0e98dc2f06113",
+    "/rog-map2/safari-pinned-tab.svg": "2fa5629fc4c22d2a0e5a0a730fad7fb1a26ae627",
+    "/rog-map2/scripts.1bb65570ef961697a258.js": "8c539941542c3b15122fc62ddb73992f173e9a75",
+    "/rog-map2/styles.cafbb52f03270cdecdc2.css": "903ae088d35b0c46b633477369c552687a0ea729"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ]
+}
