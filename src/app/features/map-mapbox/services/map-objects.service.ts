@@ -25,24 +25,8 @@ export class MapObjectsService {
    */
   public heatMapAdd(map: Map, locations: Map.Location[]) {
     // Turn the locations into the format needed by the heatmap layer
-    const features = locations.map(location => {
-      return <Feature<Geometry>>{
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [location.longitude, location.latitude],
-        },
-      };
-    });
-
-    map.addSource('heatmap', {
-      type: 'geojson',
-      data: {
-        type: 'FeatureCollection',
-        crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:OGC:1.3:CRS84' } },
-        features: features,
-      },
-    });
+    map.addSource('heatmap', this.markersConvertToGeoJSON(locations));
+    // Add heatmap layer
     map.addLayer(
       {
         id: 'heatmap',
@@ -157,6 +141,127 @@ export class MapObjectsService {
       map.removeLayer('heatmap');
       map.removeSource('heatmap');
     }
+  }
+
+  /**
+   * Add a clustering layer to the map
+   * @param map
+   * @param locations
+   * https://docs.mapbox.com/mapbox-gl-js/example/cluster/
+   */
+  public clusterLayerAdd(map: Map, locations: Map.Location[]) {
+    // Remove any prexisting cluster layer
+    this.clusterLayerRemove(map);
+    // Create a data source by convert locations to geoJson
+    map.addSource('clusters', {
+      ...this.markersConvertToGeoJSON(locations),
+      cluster: true,
+      clusterMaxZoom: 14, // Max zoom to cluster points on
+      clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
+    });
+
+    map.addLayer({
+      id: 'cluster-layer',
+      type: 'circle',
+      source: 'clusters',
+      filter: ['has', 'point_count'],
+      paint: {
+        // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+        // with three steps to implement three types of circles:
+        //   * Blue, 20px circles when point count is less than 100
+        //   * Yellow, 30px circles when point count is between 100 and 750
+        //   * Pink, 40px circles when point count is greater than or equal to 750
+        'circle-color': ['step', ['get', 'point_count'], '#51bbd6', 100, '#f1f075', 750, '#f28cb1'],
+        'circle-radius': ['step', ['get', 'point_count'], 20, 100, 30, 750, 40],
+      },
+    });
+
+    map.addLayer({
+      id: 'cluster-count',
+      type: 'symbol',
+      source: 'clusters',
+      filter: ['has', 'point_count'],
+      layout: {
+        'text-field': '{point_count_abbreviated}',
+        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+        'text-size': 12,
+      },
+    });
+
+    map.addLayer({
+      id: 'unclustered-point',
+      type: 'circle',
+      source: 'clusters',
+      filter: ['!', ['has', 'point_count']],
+      paint: {
+        'circle-color': '#11b4da',
+        'circle-radius': 4,
+        'circle-stroke-width': 1,
+        'circle-stroke-color': '#fff',
+      },
+    });
+
+    // When the cluster layer is clicked
+    map.on('click', 'cluster-layer', function(e) {
+      const features = map.queryRenderedFeatures(e.point, { layers: ['cluster-layer'] });
+      const clusterId = features[0].properties.cluster_id;
+      // This method not properly typed
+      (<any>map).getSource('clusters').getClusterExpansionZoom(clusterId, (err: any, zoom: any) => {
+        if (err) { return; }
+        // Zoom in
+        map.flyTo({
+          center: (<any>features[0]).geometry.coordinates,
+          zoom: zoom,
+        });
+      });
+    });
+  }
+
+  /**
+   * Remove the clustering layer
+   * @param map
+   */
+  public clusterLayerRemove(map: Map) {
+    if (!map) {
+      return;
+    }
+    const hasLayer3 = map.getLayer('unclustered-point');
+    if (typeof hasLayer3 !== 'undefined') {
+      map.removeLayer('unclustered-point');
+    }
+    const hasLayer2 = map.getLayer('cluster-count');
+    if (typeof hasLayer2 !== 'undefined') {
+      map.removeLayer('cluster-count');
+    }
+    const hasLayer = map.getLayer('cluster-layer');
+    if (typeof hasLayer !== 'undefined') {
+      // Remove map layer & source.
+      map.removeLayer('cluster-layer');
+      map.removeSource('clusters');
+    }
+  }
+
+  /**
+   * Convert a location array to a geo JSON
+   * @param locations
+   */
+  public markersConvertToGeoJSON(locations: Map.Location[]) {
+    return <mapboxgl.GeoJSONSourceRaw>{
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:OGC:1.3:CRS84' } },
+        features: locations.map(location => {
+          return <Feature<Geometry>>{
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [location.longitude, location.latitude],
+            },
+          };
+        }),
+      },
+    };
   }
 
   /**

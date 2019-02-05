@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material';
@@ -12,7 +12,7 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
   styleUrls: ['./mapbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapboxComponent implements OnInit {
+export class MapboxComponent implements OnInit, OnDestroy {
   public locations: Models.LocationMLS[];
   public locationsOriginal: Models.LocationMLS[];
 
@@ -32,6 +32,7 @@ export class MapboxComponent implements OnInit {
     private ref: ChangeDetectorRef,
   ) {}
 
+  
   ngOnInit() {
     // Create searchable locations
     this.formSearch = this.fb.group({
@@ -277,6 +278,9 @@ export class MapboxComponent implements OnInit {
         break;
     }
   }
+
+  ngOnDestroy() {}
+
 
   /**
    * Only show Rog listings

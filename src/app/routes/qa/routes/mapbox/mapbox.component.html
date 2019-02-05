@@ -17,7 +17,7 @@
       <div class="map-container-main">
         <app-toggles [locations]="locations" [formSearch]="formSearch" (toggleSelected)="toggleSelected($event)"></app-toggles>
         <!-- Main map -->
-        <app-map-mapbox *ngIf="locations" [locations]="locations" [flyTo]="flyTo" [heatmap]="heatmap" [style]="mapStyle"
+        <app-map-mapbox *ngIf="locations" [locations]="locations" [clusterMapAt]="10" [flyTo]="flyTo" [heatmap]="heatmap" [style]="mapStyle"
           (pinClicked)="pinClicked($event)"></app-map-mapbox>
         <div *ngIf="!locations" class="maps-loading"><i class="fa fa-spinner fa-spin"></i> Loading Map...</div>
       </div>

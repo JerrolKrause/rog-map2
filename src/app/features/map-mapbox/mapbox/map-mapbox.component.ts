@@ -35,6 +35,8 @@ export class MapMapboxComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() style = 'streets';
   /**Show/hide heatmap on default */
   @Input() heatmap = false;
+  /** If set, show map circle clustering at the specified zoom level and below. Range is 2-20ish */
+  @Input() clusterMapAt: number;
   /** Fly and zoom to this location, coords should be lat long */
   @Input() flyTo: { zoom: number; coords: [number, number] };
   /** When a pin is clicked on */
@@ -47,6 +49,8 @@ export class MapMapboxComponent implements OnInit, AfterViewInit, OnChanges {
 
   /** Randomly generated uniqueID for the div that holds the map. Allows for multiple map per page  */
   public uniqueId = 'map-box' + Math.floor(Math.random() * 1000000);
+  /** Keep track of the last zoom level. Used to determine when to toggle the cluster map */
+  private zoomLast: number;
 
   private isRotating = true;
   /** Holds a reference to any created markers. Used to remove */
@@ -62,6 +66,11 @@ export class MapMapboxComponent implements OnInit, AfterViewInit, OnChanges {
       this.map.setStyle(`mapbox://styles/mapbox/${this.style}-v9`);
     }
 
+    if (this.isLoaded) {
+      this.mapDisplayData();
+    }
+
+      /** 
     // If locations change
     if (model.locations && this.isLoaded) {
       if (this.heatmap) {
@@ -78,17 +87,75 @@ export class MapMapboxComponent implements OnInit, AfterViewInit, OnChanges {
       if (this.heatmap) {
         this.heatMapAdd();
       } else {
-        this.heatMapRemove();
+        // Remove any preexisting heatmap
+        this.mapObjects.heatMapRemove(this.map);
         if (this.locations) {
           this.locationsAdd();
         }
       }
     }
-
+*/
     // If flyto is passed down, jump the map to that location
     if (model.flyTo && this.isLoaded) {
       this.isRotating = false;
       this.mapObjects.flyToLocation(this.map, this.flyTo.coords, { zoom: 15, speed: 3 });
+    }
+  }
+
+  /**
+   * 
+   */
+  public mapDisplayData() {
+
+    // If no locations or empty locations array
+    if (!this.locations || !this.locations.length) {
+      // Plot initial location
+      const initialLocation = (lat: number, long: number) => {
+        const myLocation: Map.Location = {
+          latitude: lat,
+          longitude: long,
+        };
+        this.locations = [myLocation];
+        this.locationsAdd(false);
+      };
+
+      // Create location
+      navigator.geolocation.getCurrentPosition(
+        val => initialLocation(val.coords.latitude, val.coords.longitude),
+        error => {
+          console.log(error);
+          initialLocation(-115.172813, 36.114647);
+        },
+      );
+      
+    } else 
+    // If heatmap specified
+    if (this.heatmap && this.locations) {
+      this.heatMapAdd();
+    } else 
+    // No heatmap
+    if (!this.heatmap) {
+      // Remove existing heatmap if any
+      this.mapObjects.heatMapRemove(this.map);
+      // If map clustering is specified
+      if (this.clusterMapAt) {
+        // Get zoom level
+        const zoom = this.map.getZoom();
+        // If zoom level is less than the minimum supplied by the input prop
+        if (zoom < this.clusterMapAt) {
+          // Remove any existing markers
+          this.locationsRemove();
+          // Add clustering layer
+          this.mapObjects.clusterLayerAdd(this.map, this.locations);
+        } else {
+          this.mapObjects.clusterLayerRemove(this.map);
+          this.locationsAdd(false);
+        }
+      } else {
+        this.mapObjects.clusterLayerRemove(this.map);
+        this.locationsAdd(false);
+      }
+
     }
   }
 
@@ -124,13 +191,13 @@ export class MapMapboxComponent implements OnInit, AfterViewInit, OnChanges {
       (<any>window).mapboxgl.accessToken = this.apiKey;
       // Get user's lat long to set initial position
       navigator.geolocation.getCurrentPosition(
-        val => {
+        () => {
           // Confirm that lat and long were passed
-          this.mapCreate([val.coords.longitude, val.coords.latitude]);
+          this.mapCreate();
         },
         error => {
           console.log(error);
-          this.mapCreate([-115.172813, 36.114647]);
+          this.mapCreate();
         },
       );
     }
@@ -140,7 +207,7 @@ export class MapMapboxComponent implements OnInit, AfterViewInit, OnChanges {
    * Create the map after getting user coords
    * @param coords
    */
-  private mapCreate(coords: [number, number]) {
+  private mapCreate() {
     // Create new map
     this.map = new (<any>window).mapboxgl.Map({
       container: this.uniqueId,
@@ -167,37 +234,33 @@ export class MapMapboxComponent implements OnInit, AfterViewInit, OnChanges {
     this.map.on('load', () => {
       // Start rotation
       this.rotateTo(0);
-      // If heatmap is true and locations are supplied
-      if (this.heatmap && this.locations) {
-        this.mapObjects.heatMapAdd(this.map, this.locations);
-      }
+     
+      // Set last zoom level
+      this.zoomLast = this.map.getZoom(); 
 
-      // If heatmap not specified, add locations
-      if (!this.heatmap) {
-        this.locationsAdd(false);
-      }
+      this.map.on('easeend', () => {
+        console.log('ease end')
+      })
 
-      // If no locations supplied on map create, plot the user's current location
-      if (!this.locations) {
-        // Create location
-        const myLocation: Map.Location = {
-          latitude: coords[1],
-          longitude: coords[0],
-        };
-        this.locations = [myLocation];
-        this.locationsAdd(false);
-      }
-
-      /**
-      // Add 3d buildings and remove label layers to enhance the map
-      const layers = this.map.getStyle().layers;
-      for (let i = 0; i < layers.length; i++) {
-        if (layers[i].type === 'symbol' && (<any>layers)[i].layout['text-field']) {
-          // remove text labels
-          this.map.removeLayer(layers[i].id);
+      // On zoom end
+      this.map.on('zoomend', () => {
+        
+        // Get current map zoom level
+        const zoomNew = this.map.getZoom();
+        // Only update map when the clusterMapAt threshold is crossed
+        // Lower number is zooming out
+        if (
+          (zoomNew >= this.clusterMapAt && this.zoomLast <= this.clusterMapAt) ||
+          (zoomNew <= this.clusterMapAt && this.zoomLast >= this.clusterMapAt)
+        ) {
+          this.mapDisplayData();
         }
-      }
-      */
+        // console.log('zoomend', this.clusterMapAt, this.zoomLast, zoomNew);
+        this.zoomLast = zoomNew;
+      });
+
+       // Determine what data to display on the map
+       this.mapDisplayData();
 
       // Add 3D layer
       this.map.addLayer({
@@ -230,20 +293,13 @@ export class MapMapboxComponent implements OnInit, AfterViewInit, OnChanges {
     // Remove any markers/locations on the map
     this.locationsRemove();
     // Remove any preexisting heatmap
-    this.heatMapRemove();
+    this.mapObjects.heatMapRemove(this.map);
     // Add existing heatmap
     this.mapObjects.heatMapAdd(this.map, this.locations);
     // Create map makers but do NOT add them to the map
     this.markers = this.mapObjects.markersCreate(this.locations);
     // Pass map markers to fit bounds to recenter the map on the heatmap
     this.mapObjects.mapFitBounds(this.map, this.markers);
-  }
-
-  /**
-   * Remove existing heatmap
-   */
-  private heatMapRemove() {
-    this.mapObjects.heatMapRemove(this.map);
   }
 
   /**
