@@ -207,13 +207,22 @@ export class MapObjectsService {
       const clusterId = features[0].properties.cluster_id;
       // This method not properly typed
       (<any>map).getSource('clusters').getClusterExpansionZoom(clusterId, (err: any, zoom: any) => {
-        if (err) { return; }
+        if (err) {
+          return;
+        }
         // Zoom in
         map.flyTo({
           center: (<any>features[0]).geometry.coordinates,
           zoom: zoom,
         });
       });
+    });
+    // Change cursor
+    map.on('mouseenter', 'clusters', function() {
+      map.getCanvas().style.cursor = 'pointer';
+    });
+    map.on('mouseleave', 'clusters', function() {
+      map.getCanvas().style.cursor = '';
     });
   }
 

@@ -103,10 +103,9 @@ export class MapMapboxComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   /**
-   * 
+   * Determine which data and layers to display on the map
    */
   public mapDisplayData() {
-
     // If no locations or empty locations array
     if (!this.locations || !this.locations.length) {
       // Plot initial location
@@ -131,6 +130,7 @@ export class MapMapboxComponent implements OnInit, AfterViewInit, OnChanges {
     } else 
     // If heatmap specified
     if (this.heatmap && this.locations) {
+      this.mapObjects.clusterLayerRemove(this.map);
       this.heatMapAdd();
     } else 
     // No heatmap
@@ -244,7 +244,6 @@ export class MapMapboxComponent implements OnInit, AfterViewInit, OnChanges {
 
       // On zoom end
       this.map.on('zoomend', () => {
-        
         // Get current map zoom level
         const zoomNew = this.map.getZoom();
         // Only update map when the clusterMapAt threshold is crossed
